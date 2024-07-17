@@ -1,0 +1,34 @@
+variable        NSTEPS          equal 210000
+variable        THERMO_FREQ     equal 10
+variable        DUMP_FREQ       equal 1
+variable        TEMP            equal 330.000000
+
+units           metal
+boundary        p p p
+atom_style      atomic
+
+neighbor        1.0 bin
+
+box          tilt large
+read_data       system.data
+change_box   all triclinic
+mass            1 15.999000
+mass            2 1.007900
+mass            3 195.080000
+pair_style      deepmd graph.pb  
+pair_coeff      * *
+
+thermo_style    custom step temp pe ke etotal press vol lx ly lz xy xz yz
+thermo          ${THERMO_FREQ}
+
+dump            textdump all custom 100 dump.lammpstrj id element xu yu zu
+dump_modify     textdump element O H Pt sort id format line "%d %s %20.15g %20.15g %20.15g"
+
+dump            xtcdump all xtc ${DUMP_FREQ} dump.xtc
+dump_modify     xtcdump precision 10000 unwrap yes
+
+velocity        all create ${TEMP} 322274
+fix             1 all nvt temp ${TEMP} ${TEMP} $(100.0*dt)
+
+timestep        0.000500
+run             ${NSTEPS}
