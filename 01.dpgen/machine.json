@@ -1,0 +1,91 @@
+{
+  "api_version": "1.0",
+  "train": [
+    {
+      "command": "dp",
+      "machine": {
+        "batch_type": "Slurm",
+        "context_type": "LocalContext",
+        "local_root": "./",
+        "remote_root": "/data/dpgen_calc"
+      },
+      "resources": {
+        "number_node": 1,
+        "cpu_per_node": 1,
+        "gpu_per_node": 1,
+        "queue_name": "GPU_s",
+        "group_size": 1,
+        "source_list": [
+          "activate deepmd-v2.0.3"
+        ],
+        "module_list": [
+          "compiler/2021.1.1",
+          "mpi/2021.1.1",
+          "gcc/9.2",
+          "cuda/11.4"
+        ]
+      }
+    }
+  ],
+  "model_devi":[
+    {
+      "command": "lmp",
+      "machine": {
+        "batch_type": "Slurm",
+        "context_type": "LocalContext",
+        "local_root": "./",
+        "remote_root": "/data/dpgen_calc"
+      },
+      "resources": {
+        "number_node": 1,
+        "cpu_per_node": 4,
+        "gpu_per_node": 1,
+        "queue_name": "GPU_s",
+        "group_size": 1,
+        "source_list": [
+          "activate deepmd-v2.0.3"
+        ],
+        "module_list": [
+          "compiler/2021.1.1",
+          "mpi/2021.1.1",
+          "gcc/9.2",
+          "cuda/11.4"
+        ],
+        "envs": {
+          "OMP_NUM_THREADS": 4,
+          "TF_INTER_OP_PARALLELISM_THREADS": 2,
+          "TF_INTRA_OP_PARALLELISM_THREADS": 2
+        }
+      }
+    }
+  ],
+  "fp":[
+    {
+      "command": "mpirun cp2k.psmp -i input.inp",
+      "machine": {
+        "batch_type": "Slurm",
+        "context_type": "LocalContext",
+        "local_root": "./",
+        "remote_root": "/data/dpgen_calc"
+      },
+      "resources": {
+        "number_node": 1,
+        "cpu_per_node": 64,
+        "gpu_per_node": 0,
+        "queue_name": "small_s",
+        "group_size": 4,
+        "module_list": [
+          "gcc/9.3",
+          "intel/2020.2",
+          "cp2k/2022.1-intel-2020"
+        ],
+        "envs": {
+          "OMP_NUM_THREADS": 1
+        },
+        "custom_flags": [
+          "#SBATCH --mem=4G"
+        ]
+      }
+    }
+  ]
+}
