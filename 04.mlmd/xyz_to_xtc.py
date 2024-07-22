@@ -15,8 +15,5 @@ u = mda.Universe("coord.xyz",
                  )
 with mda.Writer("dump.xtc") as W:
     for ts in u.trajectory:
-        d = load_dict(".timestep_info.pkl")
-        if (d["i"] % 100 == 0):
-            W.write(u)
+        W.write(u)
         
-# 6428600 -> 64286 frames

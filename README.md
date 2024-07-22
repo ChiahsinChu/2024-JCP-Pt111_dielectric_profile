@@ -26,6 +26,13 @@ bash run.sh
 
 ## `01.dpgen`
 
+- version: `0.11.0`
+
+```bash
+dpgen run param.json machine.json
+```
+
+
 ## `02.mlp_train`
 
 ## `03.mlp_validation`
