@@ -209,8 +209,13 @@ def _calc_water_hb(data: Dict, start=None, stop=None):
     watb_donor_hb = hba.results.hbonds.copy()
     return wata_accpetor_hb, wata_donor_hb, watb_accpetor_hb, watb_donor_hb
 
+
 if __name__ == "__main__":
-    u_aimd, atoms_aimd = load_traj("aimd_prl")
+    data_dir = os.environ.get("DATADIR")
+    if data_dir is None:
+        raise ValueError("Please set env var DATADIR.")
+
+    u_aimd, atoms_aimd = load_traj(os.path.join(data_dir, "aimd"))
 
     workflow = []
     transform = trans.boxdimensions.set_dimensions(atoms_aimd.cell.cellpar())

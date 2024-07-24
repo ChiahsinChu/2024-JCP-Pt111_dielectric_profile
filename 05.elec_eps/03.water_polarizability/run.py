@@ -1,19 +1,25 @@
-from toolbox.utils import *
-from toolbox.utils.utils import load_dict, safe_makedirs
+import glob
+import os
+import numpy as np
+from ase import io
+
+
+from toolbox.utils.utils import load_dict
 from toolbox.utils.math import handle_zero_division
 
 from intdielec.watanalysis.elec_eps import WaterEDen
 
 
-dnames_int = glob.glob("/public/home/jxzhu/workspace/2022_leiden/08.Pt_111/01.elec_eps/01.calc/calc/*")
+dnames_int = glob.glob("../01.eps_calc/calc/*")
 dnames_int.sort()
-
-fnames_metal_coord = glob.glob("/public/home/jxzhu/workspace/2022_leiden/08.Pt_111/01.elec_eps/02.pure_slab/calc/task.000.*/coord.xyz") 
+fnames_metal_coord = glob.glob("../02.pure_slab/calc/task.000.*/coord.xyz")
 fnames_metal_coord.sort()
-fnames_metal_eps = glob.glob("/public/home/jxzhu/workspace/2022_leiden/08.Pt_111/01.elec_eps/02.pure_slab/data/eps_data.*.pkl")
+fnames_metal_eps = glob.glob("../02.pure_slab/data/eps_data.*.pkl")
 fnames_metal_eps.sort()
 
-for dname_int, fname_metal_coord, fname_metal_eps in zip(dnames_int, fnames_metal_coord, fnames_metal_eps):
+for dname_int, fname_metal_coord, fname_metal_eps in zip(
+    dnames_int, fnames_metal_coord, fnames_metal_eps
+):
     # pure metal
     metal_data = load_dict(fname_metal_eps)[0.0]
     metal_inveps = metal_data["inveps"].mean(axis=0)
@@ -22,17 +28,17 @@ for dname_int, fname_metal_coord, fname_metal_eps in zip(dnames_int, fnames_meta
     z_ave_metal = np.sort(z)[-36:].mean()
     metal_grid = metal_data["v_prime_grid"] - z_ave_metal
     metal_eps = handle_zero_division(1, metal_inveps, 1e-2)
-    
+
     # interface
     work_dir = os.path.basename(dname_int)
-    safe_makedirs(work_dir)
+    os.makedirs(work_dir, exist_ok=True)
     data_dict = load_dict(os.path.join(dname_int, "task_info.json"))
     for prefix in ["lo", "hi"]:
         z_ref = data_dict[prefix]["z_ave"]
         atoms = io.read(os.path.join(dname_int, "ref_%s/coord.xyz" % prefix))
         data = load_dict(os.path.join(dname_int, "eps_data_%s.pkl" % prefix))[0.0]
         _x = data["v_prime_grid"] - z_ref
-        mask = (_x >= 0)
+        mask = _x >= 0
         inveps = data["inveps"][-1][mask]
         grid = _x[mask]
         int_eps = handle_zero_division(1, inveps, 1e-2)

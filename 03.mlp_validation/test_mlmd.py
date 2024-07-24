@@ -210,7 +210,11 @@ def _calc_water_hb(data: Dict, start=None, stop=None):
 
 
 if __name__ == "__main__":
-    u_mlmd, atoms_mlmd = load_traj("mlmd")
+    data_dir = os.environ.get("DATADIR")
+    if data_dir is None:
+        raise ValueError("Please set env var DATADIR.")
+
+    u_mlmd, atoms_mlmd = load_traj(os.path.join(data_dir, "mlmd"))
     transform = trans.boxdimensions.set_dimensions(atoms_mlmd.cell.cellpar())
     u_mlmd.trajectory.add_transformations(transform)
 
