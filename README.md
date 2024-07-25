@@ -136,6 +136,19 @@ The output trajectory file is in `xyz` format, which can be converted to `xtc` f
 
 ## `06.orient_eps`
 
+- `00.spce`
+   - Calculate inverse of orientational (ionic) dielectric constant via MLMD + SPCE charges (point charges).
+
+- `01.dw_gaussian`
+   - Calculate inverse of orientational (ionic) dielectric constant via MLMD + Wannier centroid from Deep Wannier (DW) model with spread from DFT calculation
+   - DW model are downloaded from [aissquare](https://www.aissquare.com/datasets/detail?pageType=datasets&name=H2O-DPLR&id=17).
+
+- `02.V_hartree_from_mlwc`
+   - Example of fitting Hartree potential from maximum localized Wannier centers (MLWCs).
+
+- `calc_z_surf.py`
+   - Calculate surface average positions in MLMD
+
 <!-- ## `07.manuscript` -->
 
 <!--
