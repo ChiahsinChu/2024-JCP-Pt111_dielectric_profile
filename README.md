@@ -25,6 +25,22 @@ cd 2024-JPCC-Pt111_dielectric_profile
 export PUBDIR=$(pwd)
 ```
 
+3. install required packages
+
+```bash
+git clone --recursive https://github.com/ChiahsinChu/IntDielec.git
+cd IntDielec && pip install .
+cd ..
+
+git clone https://github.com/ChiahsinChu/mdanalysis.git -b jxzhu_dev
+cd mdanalysis && pip install package/
+cd ..
+
+git clone https://github.com/ChiahsinChu/WatAnalysis.git
+cd WatAnalysis && pip install .
+cd ..
+```
+
 ## `00.init_dataset`
 
 ## `01.dpgen`
@@ -152,11 +168,7 @@ The output trajectory file is in `xyz` format, which can be converted to `xtc` f
 
 <!-- ## `07.manuscript` -->
 
-<!--
-## `trajs`
-
-- `aimd.xyz`: AIMD trajectory of Pt(111)/water interface
-
 ## `softwares`
 
-- `dp2.0-cp2k.tar.gz`: Deep Potential training code -->
+- `dp2.0-cp2k.tar.gz`: CP2K for MLMD simulations
+- ``
