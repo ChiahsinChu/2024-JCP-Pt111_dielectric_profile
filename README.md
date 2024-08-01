@@ -2,8 +2,6 @@
 
 ## to-do list
 
-- [ ] 06.orient_eps
-
 - [ ] add `requirements.txt` for python codes (`pipreqs myproj/`)
 
 [info of publication]
@@ -31,7 +29,7 @@ export PUBDIR=$(pwd)
 
 ## `01.dpgen`
 
-Run workflow to explore the configuration space.
+Run workflow to explore the configuration space. Please adjust `param.json` according to the publication. 
 
 - software: [`dpgen`](https://github.com/deepmodeling/dpgen)
 - version: `0.11.0`
@@ -134,6 +132,12 @@ The output trajectory file is in `xyz` format, which can be converted to `xtc` f
    python run.py
    ```
 
+6. Calculate maximal localized Wannier centers with different metal-water distances
+   - `calc.000` for chemisorbed water
+   - `calc.001` for physisorbed water
+   - `calc.*/task.000.*` and `calc.*/task.002.*` for PBC
+   - `calc.*/task.001.*` and `calc.*/task.003.*` for DBC
+
 ## `06.orient_eps`
 
 - `00.spce`
@@ -142,9 +146,6 @@ The output trajectory file is in `xyz` format, which can be converted to `xtc` f
 - `01.dw_gaussian`
    - Calculate inverse of orientational (ionic) dielectric constant via MLMD + Wannier centroid from Deep Wannier (DW) model with spread from DFT calculation
    - DW model are downloaded from [aissquare](https://www.aissquare.com/datasets/detail?pageType=datasets&name=H2O-DPLR&id=17).
-
-- `02.V_hartree_from_mlwc`
-   - Example of fitting Hartree potential from maximum localized Wannier centers (MLWCs).
 
 - `calc_z_surf.py`
    - Calculate surface average positions in MLMD
