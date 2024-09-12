@@ -1,5 +1,7 @@
-## to-do list
+# to-do list
 
+- [ ] brief description for the data repository
+- [ ] finish doc for `IntDielec`
 - [ ] add `requirements.txt` for python codes (`pipreqs myproj/`)
 
 # README
