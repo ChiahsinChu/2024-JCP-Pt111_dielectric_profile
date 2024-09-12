@@ -22,4 +22,4 @@ ids = np.argmin(np.abs(efield), axis=-1)
 # take efield at axis=1 with ids
 efield_out = efield[np.arange(efield.shape[0]), ids]
 
-print("E_vac=%.3f+-%.3f [V/Å]" % (np.mean(efield_out), np.std(efield_out)))
+print("E_vac=%.3f+-%.3f in [%.3f, %.3f][V/Å] " % (np.mean(efield_out), np.std(efield_out), np.min(efield_out), np.max(efield_out)))

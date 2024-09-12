@@ -13,6 +13,8 @@ This repository contains the data and codes for the publication "Dielectric prof
 
 Details for the files are shown in the following sections. The readers can reproduce the figures in the publication (including the main text and the supplementary information) with `pub_figs/make_figs.ipynb`.
 
+Some large files are ignored in this repository. The full data repository can be downloaded from [zenodo link].
+
 ## DOI
 
 [placeholder]
