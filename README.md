@@ -1,10 +1,28 @@
-# README
-
 ## to-do list
 
 - [ ] add `requirements.txt` for python codes (`pipreqs myproj/`)
 
-[info of publication]
+# README
+
+[info of data repository]
+
+## DOI
+
+[placeholder]
+
+## Title
+
+Dielectric profile at the Pt(111)/water interface
+
+## Authors
+
+**Jia-Xin Zhu\***, **Jun Cheng\*** and **Katharina Doblhoff-Dier\***
+
+## Contact e-mail
+
+- jiaxinzhu@stu.xmu.edu.cn
+- chengjun@xmu.edu.cn
+- k.doblhoff-dier@lic.leidenuniv.nl
 
 ## Before start...
 
@@ -45,7 +63,7 @@ cd ..
 
 ## `01.dpgen`
 
-Run workflow to explore the configuration space. Please adjust `param.json` according to the publication. 
+Run workflow to explore the configuration space. Please adjust `param.json` according to the publication.
 
 - software: [`dpgen`](https://github.com/deepmodeling/dpgen)
 - version: `0.11.0`
@@ -53,6 +71,9 @@ Run workflow to explore the configuration space. Please adjust `param.json` acco
 ```bash
 dpgen run param.json machine.json
 ```
+
+1. `param.json` is only applicable for the first 16 iterations. The users are expected to update the keyword `fp_task_max` as 100 and pad the `model_devi_jobs` for the following iterations to reproduce the routine shown in the publication.
+2. The users are expected to update the `configs/POSCAR_*` to change the number of initial configurations for the exploration.
 
 ## `02.mlp_train`
 
@@ -80,6 +101,8 @@ dp train input.json
    python test_aimd.py
    python test_mlmd.py
    ```
+
+   Output files are in `data` directory. See `README.md` in the directory for details.
 
 ## `04.mlmd`
 
@@ -116,21 +139,43 @@ The output trajectory file is in `xyz` format, which can be converted to `xtc` f
    python run.py
    ```
 
-2. Perform calculation for electronic dielectric constant.
+   Every directory in `calc` represents the calculation for a single snapshots. The usage of the workflow and the structures of the output data for a single snapshot is refered to [here](https://github.com/ChiahsinChu/IntDielec/blob/main/doc/elec_eps.md).
+
+2. Perform calculation for electronic dielectric profiles at the Pt(111)/water interfaces.
 
    ```bash
    cd 01.eps_calc
    python run.py
    ```
 
-3. Perform anaylsis for ``idealized" eps
+   Every directory in `calc` represents the calculation for a single snapshots. The usage of the workflow and the structures of the output data for a single snapshot is refered to [here](https://github.com/ChiahsinChu/IntDielec/blob/main/doc/elec_eps.md).
+
+3. Perform calculation for electronic dielectric profiles at the Pt(111)/vacuum interfaces.
+
+   ```bash
+   cd 02.pure_slab
+   python setup.py
+   python cp2k_calc.py
+   ```
+
+   Every directory in `calc` represents the calculation at a certain boundary condition. The post-processing of data for the dielectric profiles is finished by `data/run.py` and the output files are in `data` directory. The data structures are refered to [here](https://github.com/ChiahsinChu/IntDielec/blob/main/doc/elec_eps.md).
+
+4. Perform anaylsis for ``idealized" eps
 
    ```bash
    cd 03.water_polarizability
    python run.py
    ```
 
-4. Perform calculation for water HOMO z-distribution
+   Every directory represents the analyses for a single snapshots. The prefixes of `lo` and `hi` refers to the lower and the upper interfaces in the snapshots.
+
+   - `*_grid.npy`: grid in the z direction
+   - `*_int_eps.npy`: interfacial dielectric profile
+   - `*_wat_chi.npy`: water susceptibility defined as (interface dielectric profile) - (metal dielectric profiles)
+   - `*_water_eden.npy`: valance electron density in water as defined in the publication
+   - `*_wat_norm_chi.npy`: water susceptibility normalized by the valance electron density in water
+
+5. Perform calculation for water HOMO z-distribution
 
    ```bash
    cd 04.level_misalignment
@@ -141,34 +186,65 @@ The output trajectory file is in `xyz` format, which can be converted to `xtc` f
    sbatch cp2k.slurm
    ```
 
-5. Calculate probability distribution of E_vac
+   The post-processing of data is shown in `pub_figs/make_figs.ipynb`.
+
+6. Calculate probability distribution of E_vac
 
    ```bash
    cd 05.efield_vac_distribution
    python run.py
    ```
 
-6. Calculate maximal localized Wannier centers with different metal-water distances
-   - `calc.000` for chemisorbed water
-   - `calc.001` for physisorbed water
+7. Calculate displacements in the maximal localized Wannier centers (MLWCs) induced by E-fields (i.e., orbital polarizability) at different metal-water distances
+
+   ```bash
+   cd 06.alpha-z_test
+   python setup.000.py
+   python setup.001.py
+   ```
+
+   - `calc.000` for a water monomer at a Pt(111) slab with an ``O-down" configuration, which is similar to the chemisorbed water
+   - `calc.001` for a water monomer at a Pt(111) slab with a ``H-down" configuration, which is similar to the physisorbed water
    - `calc.*/task.000.*` and `calc.*/task.002.*` for PBC
    - `calc.*/task.001.*` and `calc.*/task.003.*` for DBC
+
+8. Calculate molecular orbitals for the maximal localized Wannier centers (MLWCs) cloest to the Pt(111) surface (`07.wannier_mo`)
+
+   - `water_a` for a water monomer at a Pt(111) slab with an ``O-down" configuration, which is similar to the chemisorbed water
+   - `water_a` for a water monomer at a Pt(111) slab with a ``H-down" configuration, which is similar to the physisorbed water
+   - `water_a_ref` for a water monomer with the same coordinates as in `water_a` but without the Pt(111) surface
+   - `water_a_ref` for a water monomer with the same coordinates as in `water_b` but without the Pt(111) surface
+
+9. Water density profile for MLMD as reference
+
+   ```python
+   cd 08.water_density
+   python run.py
+   ```
+
+   Read `output.pkl` get a dict, which contains keywords `rho_water` and `geo_dipole_water`. The data structures are identical with the output data in `03.mlp_validation/data/water_structure*.pkl`.
 
 ## `06.orient_eps`
 
 - `00.spce`
-   - Calculate inverse of orientational (ionic) dielectric constant via MLMD + SPCE charges (point charges).
+
+  - Calculate inverse of orientational (ionic) dielectric constant via MLMD + SPCE charges (point charges).
+  - The output data are stored in `inveps.pkl`, the structures of which are refered to [here](https://github.com/ChiahsinChu/IntDielec/blob/main/doc/orient_eps.md).
 
 - `01.dw_gaussian`
-   - Calculate inverse of orientational (ionic) dielectric constant via MLMD + Wannier centroid from Deep Wannier (DW) model with spread from DFT calculation
-   - DW model are downloaded from [aissquare](https://www.aissquare.com/datasets/detail?pageType=datasets&name=H2O-DPLR&id=17).
+
+  - Calculate inverse of orientational (ionic) dielectric constant via MLMD + Wannier centroid from Deep Wannier (DW) model with spread from DFT calculation.
+  - The output data are stored in `inveps.pkl`, the structures of which are refered to [here](https://github.com/ChiahsinChu/IntDielec/blob/main/doc/orient_eps.md).
+  - DW model are downloaded from [aissquare](https://www.aissquare.com/datasets/detail?pageType=datasets&name=H2O-DPLR&id=17).
 
 - `calc_z_surf.py`
-   - Calculate surface average positions in MLMD
+  - Calculate surface average positions in MLMD
 
 <!-- ## `07.manuscript` -->
 
 ## `softwares`
 
 - `dp2.0-cp2k.tar.gz`: CP2K for MLMD simulations
-- ``
+- `IntDielec.tar.gz`: IntDielec package
+- `mdanalysis.tar.gz`: MDAnalysis package
+- `WatAnalysis.tar.gz`: WatAnalysis package
