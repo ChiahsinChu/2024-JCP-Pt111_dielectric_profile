@@ -1,12 +1,17 @@
 # to-do list
 
-- [ ] brief description for the data repository
 - [ ] finish doc for `IntDielec`
 - [ ] add `requirements.txt` for python codes (`pipreqs myproj/`)
 
 # README
 
-[info of data repository]
+This repository contains the data and codes for the publication "Dielectric profile at the Pt(111)/water interface" (link), mainly including:
+
+- training of a DP model (MLP) for Pt(111)/water interface
+- validation of the DP model (via potential energy surface, thermodynamic properties, and dynamics properties)
+- calculation of electronic and orientational dielectric profiles at the Pt(111)/water interface
+
+Details for the files are shown in the following sections. The readers can reproduce the figures in the publication (including the main text and the supplementary information) with `pub_figs/make_figs.ipynb`.
 
 ## DOI
 
@@ -213,9 +218,9 @@ The output trajectory file is in `xyz` format, which can be converted to `xtc` f
 8. Calculate molecular orbitals for the maximal localized Wannier centers (MLWCs) cloest to the Pt(111) surface (`07.wannier_mo`)
 
    - `water_a` for a water monomer at a Pt(111) slab with an ``O-down" configuration, which is similar to the chemisorbed water
-   - `water_a` for a water monomer at a Pt(111) slab with a ``H-down" configuration, which is similar to the physisorbed water
+   - `water_b` for a water monomer at a Pt(111) slab with a ``H-down" configuration, which is similar to the physisorbed water
    - `water_a_ref` for a water monomer with the same coordinates as in `water_a` but without the Pt(111) surface
-   - `water_a_ref` for a water monomer with the same coordinates as in `water_b` but without the Pt(111) surface
+   - `water_b_ref` for a water monomer with the same coordinates as in `water_b` but without the Pt(111) surface
 
 9. Water density profile for MLMD as reference
 
