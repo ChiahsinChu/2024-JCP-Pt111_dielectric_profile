@@ -1,9 +1,6 @@
-# to-do list
-
-- [ ] finish doc for `IntDielec`
-- [ ] add `requirements.txt` for python codes (`pipreqs myproj/`)
-
 # README
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13761449.svg)](https://doi.org/10.5281/zenodo.13761449)
 
 This repository contains the data and codes for the publication "Dielectric profile at the Pt(111)/water interface" (link), mainly including:
 
@@ -13,7 +10,7 @@ This repository contains the data and codes for the publication "Dielectric prof
 
 Details for the files are shown in the following sections. The readers can reproduce the figures in the publication (including the main text and the supplementary information) with `pub_figs/make_figs.ipynb`.
 
-Some large files are ignored in this repository. The full data repository can be downloaded from [zenodo link].
+Some large files are ignored in this repository. The full data repository can be downloaded from [zenodo](https://zenodo.org/records/13761448).
 
 ## DOI
 
@@ -55,7 +52,11 @@ export PUBDIR=$(pwd)
 3. install required packages
 
 ```bash
-git clone --recursive https://github.com/ChiahsinChu/IntDielec.git
+git clone https://github.com/ChiahsinChu/toolbox.git -b v1.0
+cd toolbox && pip install .
+cd ..
+
+git clone https://github.com/ChiahsinChu/IntDielec.git -b v1.0
 cd IntDielec && pip install .
 cd ..
 
@@ -63,7 +64,7 @@ git clone https://github.com/ChiahsinChu/mdanalysis.git -b jxzhu_dev
 cd mdanalysis && pip install package/
 cd ..
 
-git clone https://github.com/ChiahsinChu/WatAnalysis.git
+git clone https://github.com/ChiahsinChu/WatAnalysis.git -b v1.0
 cd WatAnalysis && pip install .
 cd ..
 ```
@@ -250,10 +251,3 @@ The output trajectory file is in `xyz` format, which can be converted to `xtc` f
   - Calculate surface average positions in MLMD
 
 <!-- ## `07.manuscript` -->
-
-## `softwares`
-
-- `dp2.0-cp2k.tar.gz`: CP2K for MLMD simulations
-- `IntDielec.tar.gz`: IntDielec package
-- `mdanalysis.tar.gz`: MDAnalysis package
-- `WatAnalysis.tar.gz`: WatAnalysis package
