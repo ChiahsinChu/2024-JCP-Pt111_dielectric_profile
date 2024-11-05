@@ -46,7 +46,7 @@ def run(ii, fp_params, d0, delta_d, n):
             hartree=True,
             eden=True,
             totden=True,
-            # wfn_restart=os.path.join(work_dir, "cp2k-RESTART.wfn"),
+            wfn_restart=os.path.join(work_dir, "cp2k-RESTART.wfn"),
         )
         cp2k_inp.write(work_dir, fp_params=fp_params)
 
@@ -59,7 +59,6 @@ if __name__ == "__main__":
             "DFT": {
                 "LOCALIZE": {
                     "EPS_LOCALIZATION": 1e-02,
-                    "EPS_OCCUPATION": 2.0,
                     "RESTART": ".TRUE.",
                     "PRINT": {
                         "LOC_RESTART": {},

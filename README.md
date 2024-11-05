@@ -1,6 +1,6 @@
 # README
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13761449.svg)](https://doi.org/10.5281/zenodo.13761449)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13761448.svg)](https://doi.org/10.5281/zenodo.13761448)
 
 This repository contains the data and codes for the publication "Dielectric profile at the Pt(111)/water interface" (link), mainly including:
 
@@ -14,7 +14,7 @@ Some large files are ignored in this repository. The full data repository can be
 
 ## DOI
 
-[placeholder]
+10.1063/5.0239284
 
 ## Title
 
@@ -250,4 +250,3 @@ The output trajectory file is in `xyz` format, which can be converted to `xtc` f
 - `calc_z_surf.py`
   - Calculate surface average positions in MLMD
 
-<!-- ## `07.manuscript` -->
