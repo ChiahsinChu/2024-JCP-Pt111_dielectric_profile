@@ -10,7 +10,7 @@ This repository contains the data and codes for the publication "Dielectric prof
 
 Details for the files are shown in the following sections. The readers can reproduce the figures in the publication (including the main text and the supplementary information) with `pub_figs/make_figs.ipynb`.
 
-Some large files are ignored in this repository. The full data repository can be downloaded from [zenodo](https://zenodo.org/records/13761448).
+Some large files are ignored in this repository. The full data repository can be downloaded from [zenodo](https://zenodo.org/records/13761448). The MLP model, dataset and MD trajectories used in this work can be downloaded in [ai2db](https://ai2db.ikkem.com/electroface/IF-100069) database.
 
 ## DOI
 
@@ -44,8 +44,8 @@ export DATADIR=$(pwd)
 2. Set env var `PUBDIR`
 
 ```bash
-git clone https://github.com/ChiahsinChu/2024-JPCC-Pt111_dielectric_profile.git
-cd 2024-JPCC-Pt111_dielectric_profile
+git clone https://github.com/ChiahsinChu/2024-JCP-Pt111_dielectric_profile.git
+cd 2024-JCP-Pt111_dielectric_profile
 export PUBDIR=$(pwd)
 ```
 
